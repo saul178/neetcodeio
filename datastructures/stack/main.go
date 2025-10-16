@@ -155,8 +155,30 @@ func (ms *MinStack) GetMin() int {
 	return minimum
 }
 
+func removeElement(nums []int, val int) int {
+	i := 0
+	for i < len(nums) {
+		if nums[i] == val {
+			copy(nums[i:], nums[i+1:])
+			nums[len(nums)-1] = 0
+			nums = nums[:len(nums)-1]
+		} else {
+			i++
+		}
+	}
+	return len(nums)
+}
+
+func getConcatenation(nums []int) []int {
+	n := len(nums)
+	ans := make([]int, n)
+	copy(ans, nums)
+	ans = append(ans, nums...)
+	return ans
+}
+
 func main() {
-	fmt.Println(simplifyPath("/.../a/../b/c/../d/./"))
+	fmt.Println(getConcatenation([]int{1, 4, 1, 2}))
 }
 
 /*

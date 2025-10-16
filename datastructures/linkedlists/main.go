@@ -18,4 +18,5 @@ func reverseList(head *ListNode) *ListNode {
 }
 
 func reverseListRec(head *ListNode) *ListNode {
+	return &ListNode{}
 }
