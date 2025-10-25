@@ -65,6 +65,7 @@ func countStudents(students []int, sandwiches []int) int {
 			failCount = 0
 		} else {
 			// we move the student to the end and update failcount since no sandwich was taken
+			// if failcount exceeds students then we know that n students didnt eat
 			students = append(students[1:], students[0])
 			failCount++
 		}
