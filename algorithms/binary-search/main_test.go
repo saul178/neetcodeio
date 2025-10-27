@@ -87,3 +87,40 @@ func TestBinarySearchIter(t *testing.T) {
 		})
 	}
 }
+
+func TestSearchMatrix(t *testing.T) {
+	tests := []struct {
+		name     string
+		matrix   [][]int
+		target   int
+		expected bool
+	}{
+		{
+			name: "target is found",
+			matrix: [][]int{
+				{1, 3, 5, 7},
+				{10, 11, 16, 20},
+				{23, 30, 34, 60},
+			},
+			target:   3,
+			expected: true,
+		},
+		{
+			name: "target is not found",
+			matrix: [][]int{
+				{1, 3, 5, 7},
+				{10, 11, 16, 20},
+				{23, 30, 34, 60},
+			},
+			target:   13,
+			expected: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := searchMatrix(tt.matrix, tt.target)
+			assert.Equal(t, tt.expected, got)
+		})
+	}
+}

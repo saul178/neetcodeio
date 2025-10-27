@@ -1,5 +1,7 @@
 package main
 
+import "math"
+
 func binarySearchRec(nums []int, left int, right int, target int) int {
 	if left <= right {
 		mid := left + (right-left)/2
@@ -43,38 +45,77 @@ func searchIter(nums []int, target int) int {
 }
 
 func searchMatrix(matrix [][]int, target int) bool {
-	rows := len(matrix)
-	cols := len(matrix[0])
+	totalRows := len(matrix)
+	totalCols := len(matrix[0])
 
-	top := 0
-	bottom := rows - 1
+	topRow := 0
+	bottomRow := totalRows - 1
 
-	for top <= bottom {
-		row := (top + bottom) / 2
-		if target > matrix[row][row-1] {
-			top = row + 1
-		} else if target < matrix[row][0] {
-			bottom = row - 1
+	// do a binary search to find the row where the target might be
+	for topRow <= bottomRow {
+		midRow := (topRow + bottomRow) / 2
+
+		if target > matrix[midRow][totalCols-1] {
+			topRow = midRow + 1
+		} else if target < matrix[midRow][0] {
+			bottomRow = midRow - 1
 		} else {
+			// break out of the loop if we find a row where the target might live
 			break
 		}
 	}
 
-	if !(top <= bottom) {
-		return true
+	if topRow > bottomRow {
+		return false
 	}
 
-	row := (top + bottom) / 2
-	l, r := 0, cols-1
-	for l <= r {
-		m := (l + r) / 2
-		if target > matrix[row][m] {
-			l = m + 1
-		} else if target < matrix[row][m] {
-			r = m - 1
+	// binary search within the found row that might have the target
+	searchRow := (topRow + bottomRow) / 2
+	left := 0
+	right := totalCols - 1
+	for left <= right {
+		midCol := (left + right) / 2
+		if target > matrix[searchRow][midCol] {
+			left = midCol + 1
+		} else if target < matrix[searchRow][midCol] {
+			right = midCol - 1
 		} else {
 			return true
 		}
 	}
+
 	return false
+}
+
+func guessNumber(n int) int {
+	low := 1
+	high := n
+
+	for {
+		mid := low + (high-low)/2
+		if guess(mid) > 0 {
+			high = mid - 1
+		} else if guess(mid) < 0 {
+			low = mid + 1
+		} else {
+			return mid
+		}
+	}
+}
+
+func firstBadVersion(n int) int {
+	low := 1
+	high := n
+	res := -1
+
+	for low <= high {
+		mid := low + (high-low)/2
+		if isBadVersion(mid) {
+			res = mid
+			high = mid - 1
+		} else {
+			low = mid + 1
+		}
+	}
+	return res
 }
