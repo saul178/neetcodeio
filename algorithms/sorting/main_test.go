@@ -76,3 +76,68 @@ func TestMergeSort(t *testing.T) {
 		})
 	}
 }
+
+func TestQuickSort(t *testing.T) {
+	tests := []struct {
+		name     string
+		data     []Pair
+		expected []Pair
+	}{
+		{
+			name: "quick sort non stable test",
+			data: []Pair{
+				{Key: 5, Value: "apple"},
+				{Key: 2, Value: "banana"},
+				{Key: 9, Value: "cherry"},
+				{Key: 1, Value: "date"},
+				{Key: 9, Value: "elderberry"},
+			},
+			expected: []Pair{
+				{Key: 1, Value: "date"},
+				{Key: 2, Value: "banana"},
+				{Key: 5, Value: "apple"},
+				{Key: 9, Value: "elderberry"},
+				{Key: 9, Value: "cherry"},
+			},
+		},
+		{
+			name: "quick sort non stable",
+			data: []Pair{
+				{Key: 3, Value: "cat"},
+				{Key: 2, Value: "dog"},
+				{Key: 3, Value: "bird"},
+			},
+			expected: []Pair{
+				{Key: 2, Value: "dog"},
+				{Key: 3, Value: "bird"},
+				{Key: 3, Value: "cat"},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := quickSort(tt.data)
+			assert.Equal(t, tt.expected, got)
+		})
+	}
+}
+
+func TestBucketSort(t *testing.T) {
+	test := []struct {
+		name     string
+		data     []int
+		expected []int
+	}{
+		{
+			name:     "simple test",
+			data:     []int{2, 1, 2, 0, 0, 2},
+			expected: []int{0, 0, 1, 2, 2, 2},
+		},
+	}
+
+	for _, tt := range test {
+		got := bucketSort(tt.data)
+		assert.Equal(t, tt.expected, got)
+	}
+}

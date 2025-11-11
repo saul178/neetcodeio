@@ -1,5 +1,9 @@
 package main
 
+import (
+	"math"
+)
+
 type Pair struct {
 	Key   int
 	Value string
@@ -77,5 +81,68 @@ func merge(pairs []Pair, start, mid, end int) {
 		pairs[k] = rightArr[j]
 		j++
 		k++
+	}
+}
+
+func quickSort(pairs []Pair) []Pair {
+	quickSortHelper(pairs, 0, len(pairs)-1)
+	return pairs
+}
+
+func quickSortHelper(pairs []Pair, start, end int) {
+	if end-start+1 <= 1 {
+		return
+	}
+
+	pivot := pairs[end] // pivot is the last element always
+	leftPtr := start    // pointer for the left part
+
+	// partion the elements smaller than pivot on left side
+	for i := start; i < end; i++ {
+		if pairs[i].Key < pivot.Key {
+			pairs[i], pairs[leftPtr] = pairs[leftPtr], pairs[i]
+			leftPtr++
+		}
+	}
+	// move pivot in-between left and right sides
+	pairs[end] = pairs[leftPtr]
+	pairs[leftPtr] = pivot
+
+	// quicksort the left and right array
+	quickSortHelper(pairs, start, leftPtr-1)
+	quickSortHelper(pairs, leftPtr+1, end)
+}
+
+// only really usable if you know the range of your bucket
+// for example if arr=[2,2,1,0,0,2] then bucket size will be 3 where bucketarr=[0,0,0] where idx in bucketarr
+// represents arr[i]
+func bucketSort(arr []int) []int {
+	counts := make([]int, 3)
+	for _, n := range arr {
+		counts[n]++
+	}
+
+	i := 0
+	for n, count := range counts {
+		for range count {
+			arr[i] = n
+			i++
+		}
+	}
+	return arr
+}
+
+func sortColors(nums []int) {
+	counts := make([]int, 3)
+	for _, n := range nums {
+		counts[n]++
+	}
+
+	i := 0
+	for n, count := range counts {
+		for range count {
+			nums[i] = n
+			i++
+		}
 	}
 }
