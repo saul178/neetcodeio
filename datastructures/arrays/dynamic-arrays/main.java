@@ -6,7 +6,7 @@ class Main {
 		int i = 0;
 		int j = 0;
 
-		while (i < ans.length - 1) {
+		while (i <= ans.length - 1) {
 			ans[i] = nums[j];
 			j++;
 			if (j == nums.length) {
@@ -14,7 +14,6 @@ class Main {
 			}
 			i++;
 		}
-		ans[ans.length - 1] = nums[nums.length - 1];
 		return ans;
 	}
 
