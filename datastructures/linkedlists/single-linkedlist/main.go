@@ -79,5 +79,31 @@ func (ll *LinkedList) GetValues() []int {
 	return res
 }
 
+func reverseList(head *Node) *Node {
+	var prev *Node = nil
+	curr := head
+
+	for curr != nil {
+		tmpNxt := curr.next
+		curr.next = prev
+		prev = curr
+		curr = tmpNxt
+	}
+	return prev
+}
+
+func reverseListRec(head *Node) *Node {
+	if head == nil {
+		return nil
+	}
+	newHead := head
+	if head.next != nil {
+		newHead = reverseList(head.next)
+		head.next.next = head
+	}
+	head.next = nil
+	return newHead
+}
+
 func main() {
 }
