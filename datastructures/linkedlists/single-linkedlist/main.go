@@ -5,6 +5,11 @@ type Node struct {
 	next *Node
 }
 
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
 func NewNode(val int, nextNode *Node) *Node {
 	return &Node{
 		val:  val,
@@ -103,6 +108,38 @@ func reverseListRec(head *Node) *Node {
 	}
 	head.next = nil
 	return newHead
+}
+
+func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+	if list1 == nil {
+		return list2
+	}
+
+	if list2 == nil {
+		return list1
+	}
+
+	var dummyNode *ListNode = nil
+	var tail *ListNode = dummyNode
+
+	for list1 != nil && list2 != nil {
+		if list1.Val < list2.Val {
+			tail.Next = list1
+			list1 = list1.Next
+		} else {
+			tail.Next = list2
+			list2 = list2.Next
+		}
+		tail = tail.Next
+	}
+
+	if list1 == nil {
+		tail.Next = list2
+	} else {
+		tail.Next = list1
+	}
+
+	return dummyNode.Next
 }
 
 func main() {
